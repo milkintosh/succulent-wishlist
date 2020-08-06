@@ -15,19 +15,8 @@ class App extends React.Component {
     this.state = {APIres:""}
   }
 
-  callAPI() {
-    fetch("http://localhost:9000/plant")
-    .then(res => res.text())
-    .then(res => this.setState({APIres:res}));
-  }
-
-  componentWillMount() {
-    this.callAPI();
-  }
-
   render() {
-    return (       
-      //{this.state.APIres}
+    return (
     <BrowserRouter>
       <div>
         <Switch>
