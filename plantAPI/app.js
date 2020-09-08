@@ -8,6 +8,7 @@ var cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var plantRouter = require('./routes/plant');
+var sqlRouter = require('./routes/sequelize');
 var favicon = require('./routes/favicon');
 
 var app = express();
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/plant', plantRouter);
+app.use('/sql', sqlRouter);
 app.use('/favicon.ico', favicon);
 
 // catch 404 and forward to error handler

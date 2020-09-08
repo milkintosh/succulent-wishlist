@@ -1,6 +1,5 @@
 import React from 'react';
 import swal from 'sweetalert2';
-import {NavLink} from 'react-router-dom';
 import { withAuth0 } from "@auth0/auth0-react";
 
 import Header from './header';
@@ -12,11 +11,12 @@ class Home extends React.Component {
         this.state = {category:"", 
                     items:[{}],
                     loading:false,
+                    user:this.props.auth0,
          };
     }
 
     callAPI = () => {
-        return fetch("http://localhost:9000/plant/" + this.state.category)
+        return fetch("http://localhost:9000/plant?category=" + this.state.category)
         .then(res => res.json())
         .then(res => this.setState({items:Object.keys(res.data).map((t) => ({scientific_name:res.data[t].scientific_name, 
                 common_name:res.data[t].common_name,
@@ -29,6 +29,46 @@ class Home extends React.Component {
             }).then(
             this.setState({category:""}))
         });
+    }
+
+    addOwned = (prop) => {
+        const { user } = this.props.auth0;
+        return fetch("http://localhost:9000/sql?email=" + user.email + "&owned=" + prop)
+        .then(swal.fire({
+            icon: 'success',
+            title: 'Successfully added'
+        }))
+        .catch( () => {
+            swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Sorry, error fetching data. Try again later.",
+            })
+        })
+    }
+
+    addWishlist = (prop) => {
+        const { user } = this.props.auth0;
+        return fetch("http://localhost:9000/sql?email=" + user.email + "&wishlist=" + prop)
+        .catch( () => {
+            swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Sorry, error fetching data. Try again later.",
+            })
+        })
+    }
+
+    addLost = (prop) => {
+        const { user } = this.props.auth0;
+        return fetch("http://localhost:9000/sql?email=" + user.email + "&lost=" + prop)
+        .catch( () => {
+            swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Sorry, error fetching data. Try again later.",
+            })
+        })
     }
 
     Clicked = (e) => {
@@ -59,9 +99,9 @@ class Home extends React.Component {
             children.push(<div key = {i} class="card border-primary mb-3" style={{"max-width": "50rem", "text-align":"left"}}> 
                 <h4 class="card-header">scientific name: {item["scientific_name"]} 
                     <div style = {{"text-align":"right"}}>
-                        <button class="btn btn-secondary"><i class="fa fa-heart" aria-hidden="true"></i></button>
-                        <button class="btn btn-secondary"><i class="fa fa-leaf" aria-hidden="true"></i></button>
-                        <button class="btn btn-secondary"><i class="fa fa-frown-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-secondary" onClick = { () => this.addWishlist(item["scientific_name"])}><i class="fa fa-heart" aria-hidden="true"></i></button>
+                        <button class="btn btn-secondary" onClick = { () => this.addOwned(item["scientific_name"])}><i class="fa fa-leaf" aria-hidden="true"></i></button>
+                        <button class="btn btn-secondary" onClick = { () => this.addLost(item["scientific_name"])}><i class="fa fa-frown-o" aria-hidden="true"></i></button>
                     </div>
                 </h4>
                 <br/>

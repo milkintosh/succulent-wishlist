@@ -13,6 +13,15 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "node-fetch": "^2.6.0"
-  }
+    "node-fetch": "^2.6.0",
+    "pg": "^6.4.2",
+    "sequelize": "^6.3.4"
+  },
+  "main": "app.js",
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header';
 import { withAuth0 } from "@auth0/auth0-react";
 
+import Getuser from './getuser';
 import LoginButton from './login';
 
 class Collection extends React.Component {
@@ -12,7 +13,7 @@ class Collection extends React.Component {
     }
 
     render() {
-        const { isAuthenticated,isLoading } = this.props.auth0;
+        const {isAuthenticated, isLoading } = this.props.auth0;
         if(isAuthenticated && !isLoading) {
             return (
                 <div>
@@ -31,9 +32,7 @@ class Collection extends React.Component {
                                 <h2 class="text-light">Lost</h2>
                             </th>
                         </tr>
-                        <tr>
-
-                        </tr>
+                        <Getuser/>
                     </table>
                 </div>
             )
