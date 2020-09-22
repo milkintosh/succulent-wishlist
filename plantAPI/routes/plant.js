@@ -6,6 +6,9 @@ router.get("/", function(req, res, next) {
     var response = null;
     (async () => {
         while(response === null) {
+            if(req.query["page"])
+            response = await fetch('https://trefle.io/api/v1/plants/search?token=t6fv-ES4_jzBO5egjrzYMn0OTvitq3VbE3RKh42nu48&q='+ req.query["category"] + '&page=' + req.query["page"]);
+            else 
             response = await fetch('https://trefle.io/api/v1/plants/search?token=t6fv-ES4_jzBO5egjrzYMn0OTvitq3VbE3RKh42nu48&q='+ req.query["category"]);
         }
         const json = await response.json();

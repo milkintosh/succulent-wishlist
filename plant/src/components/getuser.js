@@ -5,11 +5,8 @@ import { withAuth0 } from "@auth0/auth0-react";
 class Getuser extends React.Component {
     constructor (props) {
         super(props);
-
         this.state = {
-            plants : [],
-            wishlist : [],
-            lost : [],
+            user:[] ,
             calledAPI : 0,
          };
     }
@@ -30,7 +27,8 @@ class Getuser extends React.Component {
             else {
                 return fetch("http://localhost:9000/sql?email=" + user.email ) 
                 .then(res => res.json())
-                .then(res => this.setState({ plants : res.plants, wishlist : res.wishlist, lost : res.lost }))
+                .then(res => this.setState({ user : res}))
+                //.then(res => console.log(this.state.users[0].name))
                 .catch( () => {
                     swal.fire({
                         icon: 'error',
@@ -43,6 +41,39 @@ class Getuser extends React.Component {
     }
 
     render () {
+        var owned = [], lost = [], wishlist = [];
+        this.state.user.forEach(user => {
+            if(user.list === "owned") {
+                owned.push(
+                    <div>
+                        <h2>
+                            {user.name}
+                        </h2>
+                        <br/>
+                    </div>
+                    );
+            }
+            else if(user.list === "wishlist") {
+                wishlist.push(
+                    <div>
+                        <h2>
+                            {user.name}
+                        </h2>
+                        <br/>
+                    </div>
+                    );
+            }
+            else if(user.list === "lost") {
+                lost.push(
+                <div>
+                    <h2>
+                        {user.name}
+                    </h2>
+                    <br/>
+                </div>
+                );
+            }
+          });
         const { isAuthenticated, isLoading } = this.props.auth0;
         if (isLoading) {
             return <div>Loading ...</div>;
@@ -56,13 +87,13 @@ class Getuser extends React.Component {
                 isAuthenticated && 
                 <tr>
                     <td style={{"width": "33%"}}>
-                        <h2>{this.state.wishlist}</h2> 
+                        <h2>{wishlist}</h2> 
                     </td>
                     <td style={{"width": "33%"}}>
-                        <h2>{this.state.plants}</h2>
+                        <h2>{owned}</h2>
                     </td>
                     <td style={{"width": "33%"}}>
-                        <h2>{this.state.lost}</h2>
+                        <h2>{lost}</h2>
                     </td>
                 </tr>
             )

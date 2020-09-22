@@ -3,6 +3,7 @@ import swal from 'sweetalert2';
 import { withAuth0 } from "@auth0/auth0-react";
 
 import Header from './header';
+import LoginButton from './login';
 
 class Home extends React.Component {
     constructor (props) {
@@ -10,65 +11,108 @@ class Home extends React.Component {
 
         this.state = {category:"", 
                     items:[{}],
+                    pages:'',
                     loading:false,
                     user:this.props.auth0,
          };
     }
 
-    callAPI = () => {
-        return fetch("http://localhost:9000/plant?category=" + this.state.category)
-        .then(res => res.json())
-        .then(res => this.setState({items:Object.keys(res.data).map((t) => ({scientific_name:res.data[t].scientific_name, 
-                common_name:res.data[t].common_name,
-                image_url:res.data[t].image_url}))}))
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
-            }).then(
-            this.setState({category:""}))
-        });
+    callAPI = (e) => {
+        if(e) {
+            return fetch("http://localhost:9000/plant?category=" + this.state.category + "&page=" + e)
+            .then(res => res.json())
+            .then(res => this.setState({items:Object.keys(res.data).map((t) => ({scientific_name:res.data[t].scientific_name, 
+                    common_name:res.data[t].common_name,
+                    image_url:res.data[t].image_url})),
+                    pages:res.links.last}))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                }).then(
+                this.setState({category:""}))
+            });
+        }
+        else {
+            return fetch("http://localhost:9000/plant?category=" + this.state.category)
+            .then(res => res.json())
+            .then(res => this.setState({items:Object.keys(res.data).map((t) => ({scientific_name:res.data[t].scientific_name, 
+                    common_name:res.data[t].common_name,
+                    image_url:res.data[t].image_url})),
+                    pages:res.links.last}))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                }).then(
+                this.setState({category:""}))
+            });
+        }
     }
 
     addOwned = (prop) => {
         const { user } = this.props.auth0;
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&owned=" + prop)
-        .then(swal.fire({
-            icon: 'success',
-            title: 'Successfully added'
-        }))
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+        if(user) {
+            return fetch("http://localhost:9000/sql?email=" + user.email + "&owned=" + prop)
+            .then(swal.fire({
+                icon: 'success',
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            return <LoginButton/>
+        }
     }
 
     addWishlist = (prop) => {
         const { user } = this.props.auth0;
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&wishlist=" + prop)
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+        if(user) {
+            return fetch("http://localhost:9000/sql?email=" + user.email + "&wishlist=" + prop)
+            .then(swal.fire({
+                icon: 'success',
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            return <LoginButton/>
+        }
     }
 
     addLost = (prop) => {
         const { user } = this.props.auth0;
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&lost=" + prop)
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+        if(user) {
+            return fetch("http://localhost:9000/sql?email=" + user.email + "&lost=" + prop)
+            .then(swal.fire({
+                icon: 'success',
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            return <LoginButton/>
+        }
     }
 
     Clicked = (e) => {
@@ -94,21 +138,28 @@ class Home extends React.Component {
             </div>
         )
         else if(this.state.category !== "" && this.state.loading === false){
+            //do a regex to extract the value we want from the page string from trefle
+            var value = this.state.pages.match(/page=(\d+)/i);
+            //create html child for each page 'gracefully' with mapping a new array
+            var pages = new Array(Number(value[1])).fill(0).map(( zero, index ) =>
+                <button key = {index} class="btn btn-link" onClick = { () => this.callAPI(index+1)}>{index+1}</button>
+            )
             var children = [];
-        this.state.items.forEach((item, i) => {
-            children.push(<div key = {i} class="card border-primary mb-3" style={{"max-width": "50rem", "text-align":"left"}}> 
-                <h4 class="card-header">scientific name: {item["scientific_name"]} 
-                    <div style = {{"text-align":"right"}}>
-                        <button class="btn btn-secondary" onClick = { () => this.addWishlist(item["scientific_name"])}><i class="fa fa-heart" aria-hidden="true"></i></button>
-                        <button class="btn btn-secondary" onClick = { () => this.addOwned(item["scientific_name"])}><i class="fa fa-leaf" aria-hidden="true"></i></button>
-                        <button class="btn btn-secondary" onClick = { () => this.addLost(item["scientific_name"])}><i class="fa fa-frown-o" aria-hidden="true"></i></button>
-                    </div>
-                </h4>
-                <br/>
-                <h4 class="card-body">common name: {item["common_name"]}</h4>
-                <img src={item["image_url"]}></img> 
-                </div>);
-          });
+            //do a loop to create an html child from each item retrieved from the trefle query
+            this.state.items.forEach((item, i) => {
+                children.push(<div key = {i} class="card border-primary mb-3" style={{"max-width": "50rem", "text-align":"left"}}> 
+                    <h4 class="card-header">scientific name: {item["scientific_name"]} 
+                        <div style = {{"text-align":"right"}}>
+                            <button class="btn btn-secondary" onClick = { () => this.addWishlist(item["scientific_name"])}><i class="fa fa-heart" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" onClick = { () => this.addOwned(item["scientific_name"])}><i class="fa fa-leaf" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" onClick = { () => this.addLost(item["scientific_name"])}><i class="fa fa-frown-o" aria-hidden="true"></i></button>
+                        </div>
+                    </h4>
+                    <br/>
+                    <h4 class="card-body">common name: {item["common_name"]}</h4>
+                    <img src={item["image_url"]}></img> 
+                    </div>);
+            });
             return (
                 <div>
                     <Header/>
@@ -119,8 +170,14 @@ class Home extends React.Component {
                     <button class="btn btn-primary" onClick = {() => {this.setState({category:""})}} style={{"max-width": "10rem"}}>
                         return to list
                     </button>
-                    
+                    {/*value[1] is the result of the regex's second value, which should be the page number */}
+                    <div>
+                        {pages}
+                    </div>
                     {children}
+                    <div>
+                        {pages}
+                    </div>
                     </div>
                     <br/>
                 </div>
