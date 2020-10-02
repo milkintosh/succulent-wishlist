@@ -7,6 +7,7 @@ import Collection from './components/collection';
 import About from './components/about';
 import Contact from './components/contact';
 import Profile from './components/profile';
+import Results from './components/results';
 
 class App extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class App extends React.Component {
         <Route path="/contact" component={Contact}/>
         <Route path="/about" component={About}/>
         <Route path="/profile" component={Profile}/>
+        <Route path="/results" component={Results}/>
         </Switch>
       </div>
       </BrowserRouter>

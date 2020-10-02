@@ -1,16 +1,28 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
+import swal from 'sweetalert2';
 import 'font-awesome/css/font-awesome.min.css';
 import { withAuth0 } from "@auth0/auth0-react";
 
 import LogoutButton from './logout';
+import Results from './results';
 
 class Header extends React.Component {
     constructor (props) {
         super(props);
-
-        this.state = {visibility:false};
+        this.state = {}
     }
+
+    RenderResults = () => {
+        //send a prop to results component
+        if(this.state.name) {
+            window.location.assign("/results?name=" + this.state.name);
+        }
+    }
+
+    handleChange = ({target})=>  {
+        this.setState({[target.name]: target.value});
+    };
 
     render () {
         const { isAuthenticated,isLoading } = this.props.auth0;
@@ -35,10 +47,12 @@ class Header extends React.Component {
                   <h3><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h3>
                   </li>
               </ul>
-              <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-              </form>
+              <div class="form-inline my-2 my-lg-0">
+                <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange}/>
+                <button class="btn btn-secondary my-2 my-sm-0" onClick = { () => this.RenderResults() }>Search</button>
+                {/*for search we have to send this to another component because the search button is part of the header, not a page
+                so we can't really just mutate the page to be something else, we have to redirect to a results page or something...*/}
+              </div>
               </div>
 
               <LogoutButton/>
@@ -67,10 +81,10 @@ class Header extends React.Component {
                       <h3><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h3>
                       </li>
                   </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search"/>
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                  </form>
+                  <div class="form-inline my-2 my-lg-0">
+                    <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange}/>
+                    <button class="btn btn-secondary my-2 my-sm-0" onClick = { () => this.RenderResults() }>Search</button>
+                  </div>
                   </div>
                   </nav>
               </div>
