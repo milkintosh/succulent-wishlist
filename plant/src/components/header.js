@@ -24,6 +24,12 @@ class Header extends React.Component {
         this.setState({[target.name]: target.value});
     };
 
+    onKeyPress = (e) => {
+        if(e.key === "Enter") {
+          this.RenderResults();
+        }
+    }
+
     render () {
         const { isAuthenticated,isLoading } = this.props.auth0;
         if(isAuthenticated && !isLoading) {
@@ -48,7 +54,7 @@ class Header extends React.Component {
                   </li>
               </ul>
               <div class="form-inline my-2 my-lg-0">
-                <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange}/>
+                <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange} onKeyPress = { (e) => this.onKeyPress(e)}/>
                 <button class="btn btn-secondary my-2 my-sm-0" onClick = { () => this.RenderResults() }>Search</button>
                 {/*for search we have to send this to another component because the search button is part of the header, not a page
                 so we can't really just mutate the page to be something else, we have to redirect to a results page or something...*/}
@@ -82,7 +88,7 @@ class Header extends React.Component {
                       </li>
                   </ul>
                   <div class="form-inline my-2 my-lg-0">
-                    <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange}/>
+                    <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange} onKeyPress = { () => this.onKeyPress}/>
                     <button class="btn btn-secondary my-2 my-sm-0" onClick = { () => this.RenderResults() }>Search</button>
                   </div>
                   </div>

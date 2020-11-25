@@ -43,29 +43,19 @@ router.get('/', function(req, res, next) {
                   console.log("can't create table " + err);
                   return;
                 }  
-                if(req.query["signup"]) {
-                  clientOrg.query("INSERT INTO users(email) VALUES ('" + req.query["email"] + "')",
+                //if(req.query["signup"] || ) {
+                  clientOrg.query("INSERT INTO users(email) VALUES ($1)", [req.query["email"]],
                           (err) => {
                     if(err) {
                       console.log("can't insert item into table " + err);
-                      return;
                     } 
                   })
-                }
-                else {
-                  if(req.query["owned"]) {
-                    clientOrg.query("SELECT * from plants WHERE name = '" + req.query["owned"] + "'", (err, res) => {
-                      if(res.rows[0]) {
-                        clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["owned"] + "', 'owned')",
-                        (err) => {
-                          if(err) {
-                            console.log("1 can't insert owned item into table " + err);
-                            return;
-                          } 
-                        })
-                      }
-                      else {
-                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ('" + req.query["owned"] + "', 1, 4); INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["owned"] + "', 'owned')",
+                //}
+                //else {
+                  if(req.query["owned"]) {//have to change this to reflect actual light and water values
+                    clientOrg.query("SELECT * from plants WHERE name = $1", [req.query["owned"]], (err, res) => {
+                      if(!res.rows[0]) {
+                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ($1, $2, $3)", [req.query["owned"], '1', '4'],
                         (err) => {
                           if(err) {
                             console.log("2 can't insert owned item into table " + err);
@@ -73,21 +63,19 @@ router.get('/', function(req, res, next) {
                           } 
                         })
                       }
+                      clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES($1, $2, $3)", [req.query["email"], req.query["owned"], "owned"],
+                        (err) => {
+                          if(err) {
+                            console.log("1 can't insert owned item into table " + err);
+                            return;
+                          } 
+                        })
                     })
                   }
-                  else if(req.query["wishlist"]) {
-                    clientOrg.query("SELECT * from plants WHERE name = '" + req.query["wishlist"] + "'", (err, res) => {
-                      if(res.rows[0]) {
-                        clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["wishlist"] + "', 'wishlist')",
-                        (err) => {
-                          if(err) {
-                            console.log("1 can't insert owned item into table " + err);
-                            return;
-                          } 
-                        })
-                      }
-                      else {
-                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ('" + req.query["wishlist"] + "', 1, 4); INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["wishlist"] + "', 'wishlist')",
+                  else if(req.query["wishlist"]) {//have to change this to reflect actual light and water values
+                    clientOrg.query("SELECT * from plants WHERE name = $1", [req.query["wishlist"]], (err, res) => {
+                      if(!res.rows[0]) {
+                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ($1, $2, $3)", [req.query["wishlist"], '1', '4'] ,
                         (err) => {
                           if(err) {
                             console.log("2 can't insert owned item into table " + err);
@@ -95,21 +83,19 @@ router.get('/', function(req, res, next) {
                           } 
                         })
                       }
+                      clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES($1, $2, $3)", [req.query["email"], req.query["wishlist"], 'wishlist'],
+                        (err) => {
+                          if(err) {
+                            console.log("1 can't insert owned item into table " + err);
+                            return;
+                          } 
+                        })
                     })
                   }
-                  else if(req.query["lost"]) {
-                    clientOrg.query("SELECT * from plants WHERE name = '" + req.query["lost"] + "'", (err, res) => {
-                      if(res.rows[0]) {
-                        clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["lost"] + "', 'lost')",
-                        (err) => {
-                          if(err) {
-                            console.log("1 can't insert owned item into table " + err);
-                            return;
-                          } 
-                        })
-                      }
-                      else {
-                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ('" + req.query["lost"] + "', 1, 4); INSERT INTO plantsByUsers(email, name, list) VALUES('" + req.query["email"] + "', '" + req.query["lost"] + "', 'lost')",
+                  else if(req.query["lost"]) {//have to change this to reflect actual light and water values
+                    clientOrg.query("SELECT * from plants WHERE name = $1", [req.query["lost"]], (err, res) => {
+                      if(!res.rows[0]) {
+                        clientOrg.query("INSERT INTO plants(name, light, water) VALUES ($1, $2, $3)", [req.query["lost"], '1', '4'],
                         (err) => {
                           if(err) {
                             console.log("2 can't insert owned item into table " + err);
@@ -117,18 +103,25 @@ router.get('/', function(req, res, next) {
                           } 
                         })
                       }
+                      clientOrg.query("INSERT INTO plantsByUsers(email, name, list) VALUES($1, $2, $3)", [req.query["email"], req.query["lost"], 'lost'],
+                        (err) => {
+                          if(err) {
+                            console.log("1 can't insert owned item into table " + err);
+                            return;
+                          } 
+                        })
                     })
                   }
                   else {
-                    clientOrg.query("select * from plantsByUsers where email = '" + req.query["email"] + "'", (err, datares) => {
+                    clientOrg.query("select * from plantsByUsers where email = $1", [req.query["email"]], (err, datares) => {
                       if(err) {
                         console.log("can't select plantsByUsers table " + err);
                         return;
                       }
-                      res.send(datares.rows);//this might need to be changed... we are sending multiple rows now instead of one row with arrays, so in the retreival we need to change how we parse info
+                      res.send(datares.rows);
                     });
                   }
-                }
+                //}
                 //res.send("hello");
               });
             })

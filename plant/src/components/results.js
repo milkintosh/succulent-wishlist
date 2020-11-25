@@ -31,7 +31,8 @@ class Results extends React.Component {
                 
                 <div style={{"display": "grid", "justify-content": "center", "text-align":"center"}}>
                     <h1>search results for: {this.state.name}</h1>
-                    <API key = {this.state.name} category = {this.state.name}/>
+                    {this.state.name &&
+                    <API key = {this.state.name} category = {this.state.name}/> }
                 </div>
             </div>
         );
