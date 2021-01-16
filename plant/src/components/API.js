@@ -44,75 +44,96 @@ callAPI = (e) => {
 }
 
 addOwned = (prop) => {
-    const { user } = this.props.auth0;
-    if(user) {
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&owned=" + prop)
-        .then(swal.fire({
-            icon: 'success',
-            title: 'Successfully added'
-        }))
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+    const { user, isAuthenticated } = this.props.auth0;
+    if(isAuthenticated) {
+        if(user) {
+            return fetch("http://localhost:9000/sql?email=" + user.email + "&owned=" + prop)
+            .then(res => res.text())
+            .then(res => swal.fire({
+                icon: res,
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            window.location.replace("/login");
+        }
     }
     else {
-        return <LoginButton/>
+        window.location.replace("/login");
     }
 }
 
 addWishlist = (prop) => {
-    const { user } = this.props.auth0;
-    if(user) {
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&wishlist=" + prop)
-        .then(swal.fire({
-            icon: 'success',
-            title: 'Successfully added'
-        }))
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+    const { user, isAuthenticated } = this.props.auth0;
+    if(isAuthenticated) {
+        if(user) {
+            var url = "http://localhost:9000/sql?email=" + user.email + "&wishlist=" + prop;
+            return fetch(url)
+            .then(res => res.text())
+            .then(res => swal.fire({
+                icon: res,
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            window.location.replace("/login");
+        }
     }
     else {
-        return <LoginButton/>
+        window.location.replace("/login");
     }
 }
 
 addLost = (prop) => {
-    const { user } = this.props.auth0;
-    if(user) {
-        return fetch("http://localhost:9000/sql?email=" + user.email + "&lost=" + prop)
-        .then(swal.fire({
-            icon: 'success',
-            title: 'Successfully added'
-        }))
-        .catch( () => {
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Sorry, error fetching data. Try again later.",
+    const { user, isAuthenticated } = this.props.auth0;
+    if(isAuthenticated) {
+        if(user) {
+            return fetch("http://localhost:9000/sql?email=" + user.email + "&lost=" + prop)
+            .then(res => res.text())
+            .then(res => swal.fire({
+                icon: res,
+                title: 'Successfully added'
+            }))
+            .catch( () => {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Sorry, error fetching data. Try again later.",
+                })
             })
-        })
+        }
+        else {
+            window.location.replace("/login");
+        }
     }
     else {
-        return <LoginButton/>
+        window.location.replace("/login");
     }
 }
 
 Clicked = (e) => {
+    //this is to get the contents of each page
     this.setState({loading:true})
     this.callAPI(e).then(() => {
     this.setState({loading:false})})
 }
 
 componentDidMount () {
+    //this is to get the content of the first page
     this.setState({loading:true})
     this.callAPI().then(() => {
     this.setState({loading:false})})
@@ -135,9 +156,9 @@ render () {
                 children.push(<div key = {i} class="card border-primary mb-3" style={{"max-width": "50rem", "text-align":"left"}}> 
                     <h4 class="card-header">scientific name: {item["scientific_name"]} 
                         <div style = {{"text-align":"right"}}>
-                            <button class="btn btn-secondary" onClick = { () => this.addWishlist(item["scientific_name"])}><i class="fa fa-heart" aria-hidden="true"></i></button>
-                            <button class="btn btn-secondary" onClick = { () => this.addOwned(item["scientific_name"])}><i class="fa fa-leaf" aria-hidden="true"></i></button>
-                            <button class="btn btn-secondary" onClick = { () => this.addLost(item["scientific_name"])}><i class="fa fa-frown-o" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" onClick = { () => this.addWishlist(item["scientific_name"])} title = "wishlist"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" onClick = { () => this.addOwned(item["scientific_name"])} title = "owned"><i class="fa fa-leaf" aria-hidden="true"></i></button>
+                            <button class="btn btn-secondary" onClick = { () => this.addLost(item["scientific_name"])} title = "lost"><i class="fa fa-frown-o" aria-hidden="true"></i></button>
                         </div>
                     </h4>
                     <br/>
@@ -145,6 +166,7 @@ render () {
                     <img src={item["image_url"]} alt={"trefle API image of " + item["scientific_name"]}></img> 
                     </div>);
             });
+            if(children.length !== 0) {
             return (
                 <div>
                     {pages}
@@ -154,6 +176,15 @@ render () {
                     {pages}
                 </div>
             )
+            }
+            else {
+                return (
+                    <div>
+                        <br></br>
+                        Couldn't find what you were looking for. Try requesting a change to the Trefle database!
+                    </div>
+                )
+            }
         }
         else if(this.state.loading === true) {
             return (

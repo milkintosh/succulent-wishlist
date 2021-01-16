@@ -8,6 +8,7 @@ import About from './components/about';
 import Contact from './components/contact';
 import Profile from './components/profile';
 import Results from './components/results';
+import LoginButton from './components/login';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class App extends React.Component {
         <Route path="/about" component={About}/>
         <Route path="/profile" component={Profile}/>
         <Route path="/results" component={Results}/>
+        <Route path="/login" component={LoginButton}/>
         </Switch>
       </div>
       </BrowserRouter>

@@ -9,7 +9,8 @@ class Collection extends React.Component {
     constructor (props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+                    };
     }
 
     render() {
@@ -33,6 +34,7 @@ class Collection extends React.Component {
                             </th>
                         </tr>
                         <Getuser/>
+                        {console.log("user is gotten")}
                     </table>
                 </div>
             )
