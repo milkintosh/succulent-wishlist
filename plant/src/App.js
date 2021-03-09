@@ -29,6 +29,7 @@ class App extends React.Component {
         <Route path="/profile" component={Profile}/>
         <Route path="/results" component={Results}/>
         <Route path="/login" component={LoginButton}/>
+        <Route><h1>Page Not Found</h1></Route>
         </Switch>
       </div>
       </BrowserRouter>

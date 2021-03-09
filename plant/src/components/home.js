@@ -51,7 +51,8 @@ class Home extends React.Component {
 
     print_table() {
         return(
-        <table class="table table-hover" style={{"display": "grid", "justify-content": "center"}}>
+        <table class="table" style={{"display": "grid", "justify-content": "center"}}>
+            <tbody>
         <tr>
             <td>
                 <button type="button" style={{"width": "20rem", "height": "10rem"}} 
@@ -229,6 +230,7 @@ class Home extends React.Component {
                 </button>
             </td>
         </tr>
+        </tbody>
     </table>
     )
     }

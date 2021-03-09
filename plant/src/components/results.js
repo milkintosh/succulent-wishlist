@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import swal from 'sweetalert2';
-import 'font-awesome/css/font-awesome.min.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import { withAuth0 } from "@auth0/auth0-react";
 
 import Header from './header';

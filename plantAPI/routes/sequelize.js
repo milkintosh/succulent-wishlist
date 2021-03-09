@@ -6,7 +6,7 @@ var pg = require('pg');
 const config = {
         database: 'wishlist',
         user :'postgres',
-        password : 'K&s121063',
+        password : '',
         hostname : "localhost",
         port : 5433
 }
@@ -14,53 +14,10 @@ const config = {
 const db = {
   database: 'postgres',
   user :'postgres',
-  password : 'K&s121063',
+  password : '',
   hostname : "localhost",
   port : 5433
 }
-{/*Winter Dormant
-  Adenia 	Ipomoea
-Adenium 	Lithops
-Agave 	Monadenium
-Alluaudia 	Moringa
-Aloinopsis 	Operculicarya
-Brachystelma 	Pachypodium
-Bursera 	Pedilanthus
-Calibanus 	Plumeria
-Ceropegia 	Pseudolithos
-Cissus 	Pterodiscus
-Cyphostemma 	Raphionacme
-Didieria 	Siningia
-Dorstenia 	Stapelianthus
-Echeveria 	Synadenium
-Encephalartos 	Tillandsia
-Euphorbia 	Titanopsis
-Ficus 	Trichocaulon
-Fockea 	Trichodiadema
-Huernia 	Xerosicyos
-Ibervillea
-
-Summer Dormant
-Adromischus 	Haworthia
-Aeonium 	Kalanchoe
-Aloe 	Neohenricia
-Anacampseros 	Othonna
-Astroloba 	Pachycormus
-Avonia 	Pachyphytum
-Bowiea 	Pachyveria
-Bulbine 	Pelargonium
-Ceraria 	Peperomia
-Conophytum 	Portulacaria
-Cotyledon 	Sansevieria
-Crassula 	Sarcocaulon
-Dioscorea 	Sedeveria
-Dudleya 	Sedum
-Fouqueria 	Senecio
-Gasteria 	Stomatium
-Gibbaeum 	Sulcorebutia
-Graptopetalum 	Talinum
-Graptoveria 	Tylecodon
-Haemanthus 	*/ }
 const dbpool = new pg.Pool(config);
 
 const pgpool = new pg.Pool(db);
@@ -79,7 +36,7 @@ router.get('/', function(req, res, next) {
                 console.log("Can not connect to the DB " + err);
                 return;
               }
-              clientOrg.query("CREATE TABLE if not exists users (email VARCHAR(50) PRIMARY KEY); CREATE TABLE if not exists plants (name VARCHAR(50) UNIQUE, light INTEGER, water INTEGER, dormancy INTEGER, PRIMARY KEY (name, dormancy)); CREATE TABLE if not exists plantsByUsers (email VARCHAR(50), name VARCHAR(50), list VARCHAR(20), PRIMARY KEY (email, name), FOREIGN KEY(email) REFERENCES users(email), FOREIGN KEY(name) REFERENCES plants(name));"
+              clientOrg.query("CREATE TABLE if not exists users (email VARCHAR(50) PRIMARY KEY); CREATE TABLE if not exists plants (name VARCHAR(100) UNIQUE, light INTEGER, water INTEGER, dormancy VARCHAR(20), hardiness VARCHAR(20), PRIMARY KEY(name)); CREATE TABLE if not exists plantsByUsers (email VARCHAR(50), name VARCHAR(100), list VARCHAR(20), PRIMARY KEY (email, name), FOREIGN KEY(email) REFERENCES users(email), FOREIGN KEY(name) REFERENCES plants(name));"
                       , (err) => {
                 if(err) {
                   console.log("can't create table " + err);

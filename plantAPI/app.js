@@ -6,7 +6,7 @@ var logger = require('morgan');
 var cors = require("cors");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var jsonRouter = require('./routes/json');
 var plantRouter = require('./routes/plant');
 var sqlRouter = require('./routes/sequelize');
 var favicon = require('./routes/favicon');
@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/json', jsonRouter);
 app.use('/plant', plantRouter);
 app.use('/sql', sqlRouter);
 app.use('/favicon.ico', favicon);

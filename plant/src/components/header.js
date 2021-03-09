@@ -1,7 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import swal from 'sweetalert2';
-import 'font-awesome/css/font-awesome.min.css';
 import { withAuth0 } from "@auth0/auth0-react";
 
 import LogoutButton from './logout';
@@ -36,7 +35,7 @@ class Header extends React.Component {
         return (
             <div>
               <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-              <h1><NavLink to="/" class = "nav-link"><i class="fa fa-pagelines" aria-hidden="true"></i></NavLink></h1>
+              <h1><NavLink to="/" class = "nav-link"><i class="fab fa-envira"></i></NavLink></h1>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
               </button>
