@@ -3,7 +3,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './plant.css';
 
 import Home from './components/home';
-import Collection from './components/collection';
+import Collection from './components/owned';
+import Wishlist from './components/wishlist';
 import About from './components/about';
 import Contact from './components/contact';
 import Profile from './components/profile';
@@ -24,6 +25,7 @@ class App extends React.Component {
         <Switch>
         <Route path="/" component={Home} exact/> 
         <Route path="/collection" component={Collection}/>
+        <Route patg="/wishlist" component={Wishlist}/>
         <Route path="/contact" component={Contact}/>
         <Route path="/about" component={About}/>
         <Route path="/profile" component={Profile}/>

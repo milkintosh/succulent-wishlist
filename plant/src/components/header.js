@@ -43,7 +43,10 @@ class Header extends React.Component {
               <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                  <h3><NavLink to="/collection" class = "nav-link">Your Collection</NavLink></h3> 
+                  <h3><NavLink to="/collection" class = "nav-link">Collection</NavLink></h3> 
+                  </li>
+                  <li class="nav-item">
+                  <h3><NavLink to="/wishlist" class = "nav-link">Wishlist</NavLink></h3> 
                   </li>
                   <li class="nav-item">
                   <h3><NavLink to="/about" class = "nav-link">About</NavLink></h3> 
@@ -69,7 +72,7 @@ class Header extends React.Component {
             return (
                 <div>
                   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                  <h1><NavLink to="/" class = "nav-link"><i class="fa fa-pagelines" aria-hidden="true"></i></NavLink></h1>
+                  <h1><NavLink to="/" class = "nav-link"><i class="fab fa-envira"></i></NavLink></h1>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
                   </button>

@@ -21,21 +21,12 @@ class Collection extends React.Component {
                     <Header/>
                     <br/>
                     <br/>
-                    <table class="table table-hover" style={{"margin-left": "auto", "margin-right": "auto","text-align":"center", "width": "75%"}}>
-                        <tr class="table-primary">
-                            <th style={{"width": "33%"}}>
-                                <h2 class="text-light">Wishlist</h2>
-                            </th>
-                            <th style={{"width": "33%"}}>
-                                <h2 class="text-light">Owned</h2>
-                            </th>
-                            <th style={{"width": "33%"}}>
-                                <h2 class="text-light">Lost</h2>
-                            </th>
-                        </tr>
-                        <Getuser/>
+                    <div style={{"display": "grid", "justify-content": "center", "text-align":"center"}}>
+                        <h2>Owned</h2>
+                        <br/><br/>
+                        <Getuser owned={true}/>
+                    </div>
                         {console.log("user is gotten")}
-                    </table>
                 </div>
             )
         }
