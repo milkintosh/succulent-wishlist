@@ -18,7 +18,8 @@ class Results extends React.Component {
     componentDidMount = () => {
         let search = window.location.search;
         let params = new URLSearchParams(search);
-        this.state.name = params.get('name');
+        let name=params.get('name');
+        this.state.name = name;
     }
 
     //must create a new page of results from the search, and if nothing is found, display something else... and maybe suggest adding it manually...
@@ -32,7 +33,7 @@ class Results extends React.Component {
                 <div style={{"display": "grid", "justify-content": "center", "text-align":"center"}}>
                     <h1>search results for: {this.state.name}</h1>
                     {this.state.name &&
-                    <API key = {this.state.name} category = {this.state.name}/> }
+                    <API category = {this.state.name.replace(/\s/g,'&')}/> }
                 </div>
             </div>
         );

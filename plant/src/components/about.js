@@ -15,6 +15,9 @@ class About extends React.Component {
                 <br/>
                 <div style={{"text-align": "center"}}>
                     <h4>Here's some information about me and this website:</h4>
+                    <p>
+                        My name is Sharon and this is my website.
+                    </p>
                 </div>
             </div>
         )

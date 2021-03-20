@@ -36,7 +36,7 @@ class Home extends React.Component {
                     <Header/>
                     <br/>
                     <br/>
-                    <div style={{"display": "grid", "justify-content": "center", "text-align":"center"}}>
+                    <div style={{"display": "grid", "justify-content": "center", "textAlign":"center"}}>
                     <h1>{this.state.category}</h1>
                     <button class="btn btn-primary" onClick = {() => {this.setState({category:""})}} style={{"max-width": "10rem"}}>
                         return to list
@@ -51,7 +51,7 @@ class Home extends React.Component {
 
     print_table() {
         return(
-        <table class="table" style={{"display": "grid", "justify-content": "center"}}>
+        <table class="table" style={{"display": "grid", "justifyContent": "center"}}>
             <tbody>
         <tr>
             <td>

@@ -21,18 +21,41 @@ class Wishlist extends React.Component {
                     <Header/>
                     <br/>
                     <br/>
-                    <table class="table table-hover" style={{"margin-left": "auto", "margin-right": "auto","text-align":"center", "width": "75%"}}>
-                        <tr class="table-primary">
-                            <th style={{"width": "50%"}}>
-                                <h2 class="text-light">Wishlist</h2>
-                            </th>
-                            <th style={{"width": "50%"}}>
-                                <h2 class="text-light">Lost</h2>
-                            </th>
-                        </tr>
-                        <Getuser wishlist={true}/>
-                        {console.log("user is gotten")}
+                    <table style={{"width":"50%", "textAlign":"center", "float":"left"}}>
+                        <tbody>
+                            <tr>
+                                <h2>Lust</h2>
+                            </tr>
+                            
+                            <tr style={{"justifyContent":"center", "display":"flex"}}>
+                                <Getuser wishlist={true}/>
+                            </tr>
+                        </tbody>
                     </table>
+                    <table style={{"width":"50%", "textAlign":"center", "float":"left"}}>
+                        <tbody>
+                            <tr>
+                                <h2>Note:</h2>
+                            </tr>
+                            <tr style={{"justifyContent":"center", "display":"flex"}}>
+                                <div class="card border-danger mb-3" style={{"width":"40rem"}}>
+                                <h5 class="card-body">Plants need much less water during dormancy.</h5>
+                                </div>
+                            </tr>
+                            <br/>
+
+                            <tr>
+                                <h2>
+                                    Lost
+                                </h2>
+                            </tr>
+
+                            <tr style={{"justifyContent":"center", "display":"flex"}}>
+                                <Getuser lost={true}/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {console.log("user is gotten")}
                 </div>
             )
         }

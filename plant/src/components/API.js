@@ -10,7 +10,7 @@ constructor (props) {
     super(props);
 
     this.state = {
-                items:[{}],
+                items:[],
                 pages:'',
                 loading:true,
                 user:this.props.auth0,
@@ -28,8 +28,7 @@ callAPI = (e) => {
     }
     return fetch(url)
     .then(res => res.json())
-    .then(res => this.setState({items:Object.keys(res).map((t) => ({name:res[t].name, light:res[t].light, water:res[t].water,
-    dormancy:res[t].dormancy, hardiness:res[t].hardiness})), pages:(Math.ceil(res[0].count/20))}))
+    .then(res => this.setState({items:res, pages:(Math.ceil(res[0].count/20))}))
     .then(e ? this.setState({page:e}): this.setState({page:1}))
     .catch( () => {
         swal.fire({
@@ -62,17 +61,14 @@ addOwned = (prop) => {
         if(user) {
             return fetch("//localhost:9000/sql?email=" + user.email + "&owned=" + prop)
             .then(res => res.text())
-            .then(res => swal.fire({
+            .then(res=> {if(res !== "success") { swal.fire({
+                icon: 'error',
+                title: "You've already got this item in your list!",
+                text: "(You can go to the item in its list to change the list)",
+            })} else swal.fire({
                 icon: res,
                 title: 'Successfully added'
-            }))
-            .catch( () => {
-                swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Sorry, error fetching data. Try again later.",
-                })
-            })
+            })})
         }
         else {
             window.location.replace("/login");
@@ -90,17 +86,14 @@ addWishlist = (prop) => {
             var url = "//localhost:9000/sql?email=" + user.email + "&wishlist=" + prop;
             return fetch(url)
             .then(res => res.text())
-            .then(res => swal.fire({
+            .then(res=> {if(res !== "success") { swal.fire({
+                icon: 'error',
+                title: "You've already got this item in your list!",
+                text: "(you can go to the item in its list to change the list)",
+            })} else swal.fire({
                 icon: res,
                 title: 'Successfully added'
-            }))
-            .catch( () => {
-                swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Sorry, error fetching data. Try again later.",
-                })
-            })
+            })})
         }
         else {
             window.location.replace("/login");
@@ -117,17 +110,14 @@ addLost = (prop) => {
         if(user) {
             return fetch("//localhost:9000/sql?email=" + user.email + "&lost=" + prop)
             .then(res => res.text())
-            .then(res => swal.fire({
+            .then(res=> {if(res !== "success") { swal.fire({
+                icon: 'error',
+                title: "You've already got this item in your list!",
+                text: "(you can go to the item in its list to change the list)",
+            })} else swal.fire({
                 icon: res,
                 title: 'Successfully added'
-            }))
-            .catch( () => {
-                swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Sorry, error fetching data. Try again later.",
-                })
-            })
+            })})
         }
         else {
             window.location.replace("/login");
@@ -158,11 +148,13 @@ render () {
         var pages = new Array(this.state.pages).fill(0).map(( zero, index ) => index+1 === this.state.page ?
             <button key = {index} class="btn btn-link disabled">{index+1}</button> :
             <button key = {index} class="btn btn-outline-info" onClick = { () => this.Clicked(index+1)}>{index+1}</button>
-            )
+            );
         var children = [];
-        this.state.items.forEach((item, i) =>  {
+        //if the length is one, that means only the count row was returned. the count row always returns something, so the least it could be is 1
+        if(this.state.items.length===1)
+            children.push(<p>Nothing found here. Sorry!</p>)
+        this.state.items.forEach((item, i) => {
             //skip index 0 cause that's the number of results
-            
             //would like to have an alert for when the item is already in your list or something...
 
             if(i===0) return; 
@@ -180,10 +172,10 @@ render () {
                     case 3: water = "more than your average succulent";break;
                     default:
                 }
-            children.push(<div key = {i} class="card border-primary mb-3" style={{"max-width": "50rem", "text-align":"left"}}> 
+            children.push(<div key = {i} class="card border-primary mb-3" style={{"width": "50rem", "height":"15rem", "text-align":"left"}}> 
                     <div class="card-header" style = {{"text-align":"right"}}>
-                        <button class="btn btn-primary" onClick = { () => this.addWishlist(item["name"])} title = "wishlist"><i class="fa fa-heart" aria-hidden="true"></i></button>
                         <button class="btn btn-primary" onClick = { () => this.addOwned(item["name"])} title = "owned"><i class="fa fa-leaf" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary" onClick = { () => this.addWishlist(item["name"])} title = "wishlist"><i class="fa fa-heart" aria-hidden="true"></i></button>
                         <button class="btn btn-primary" onClick = { () => this.addLost(item["name"])} title = "lost"><i class="far fa-dizzy"></i></button>
                     </div>
                     <div class="card-body">
@@ -191,7 +183,7 @@ render () {
                     <h6 class="card-text"><i style={{"display":"inline-block", "width":"30px"}} class="fab fa-centos"></i>Light: {light}</h6>
                     <h6 class="card-text"><i style={{"display":"inline-block", "width":"30px"}} class="fas fa-hand-holding-water"></i>Water: {water}</h6>
                     <h6 class="card-text"><i style={{"display":"inline-block", "width":"30px"}} class="fas fa-bed"></i>Dormancy Period: {item["dormancy"]}</h6>
-                    <h6 class="card-text"><i style={{"display":"inline-block", "width":"30px"}} class="fas fa-wind"></i>Hardiness: {item["hardiness"]}</h6>
+                    <h6 class="card-text"><i style={{"display":"inline-block", "width":"30px"}} class="far fa-snowflake"></i>Hardiness: {item["hardiness"]}</h6>
                     </div>
                 <br/>
                 </div>);
@@ -212,11 +204,7 @@ render () {
                     }
                 </div>
                 <br/><br/>
-                {/*start of the data 
-                <div>
-                    <h5>Note: Plants need much less water during dormancy.</h5>
-                </div>
-                */}
+                {/*start of the data*/}
                 <div>
                     {children}
                 </div>

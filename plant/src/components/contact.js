@@ -15,8 +15,7 @@ class Contact extends React.Component {
                 <br/>
                 <div style={{"text-align": "center"}}>
                     <label><h4>Please let me know if you have any suggestions or issues here:<br/></h4>
-                    (This means changing light requirements of a plant from 2 to 3, adding a specific plant with light, water, etc. specified. <br/>
-                    Adding a source or reasoning is ideal.)</label>
+                    (Note: I did create my own database, so I may have gotten some things wrong. Please correct me with a source if there are any changes I need to make.)</label>
                     <br/>
                     <textarea style = {{"width":"500px","height":"200px"}}></textarea>
                     <br/>

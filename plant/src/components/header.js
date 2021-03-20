@@ -43,16 +43,16 @@ class Header extends React.Component {
               <div class="collapse navbar-collapse" id="navbarColor01">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                  <h3><NavLink to="/collection" class = "nav-link">Collection</NavLink></h3> 
+                  <h4><NavLink to="/collection" class = "nav-link">Collection</NavLink></h4> 
                   </li>
                   <li class="nav-item">
-                  <h3><NavLink to="/wishlist" class = "nav-link">Wishlist</NavLink></h3> 
+                  <h4><NavLink to="/wishlist" class = "nav-link">Lust & Lost</NavLink></h4> 
                   </li>
                   <li class="nav-item">
-                  <h3><NavLink to="/about" class = "nav-link">About</NavLink></h3> 
+                  <h4><NavLink to="/about" class = "nav-link">About</NavLink></h4> 
                   </li>
                   <li class="nav-item">
-                  <h3><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h3>
+                  <h4><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h4>
                   </li>
               </ul>
               <div class="form-inline my-2 my-lg-0">
@@ -80,13 +80,16 @@ class Header extends React.Component {
                   <div class="collapse navbar-collapse" id="navbarColor01">
                   <ul class="navbar-nav mr-auto">
                       <li class="nav-item">
-                      <h3><NavLink to="/collection" class = "nav-link">Your Collection</NavLink></h3> 
+                      <h4><NavLink to="/collection" class = "nav-link">Your Collection</NavLink></h4> 
                       </li>
                       <li class="nav-item">
-                      <h3><NavLink to="/about" class = "nav-link">About</NavLink></h3> 
+                      <h4><NavLink to="/wishlist" class = "nav-link">Lust & Lost</NavLink></h4> 
                       </li>
                       <li class="nav-item">
-                      <h3><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h3>
+                      <h4><NavLink to="/about" class = "nav-link">About</NavLink></h4> 
+                      </li>
+                      <li class="nav-item">
+                      <h4><NavLink to="/contact" class = "nav-link">Contact</NavLink> </h4>
                       </li>
                   </ul>
                   <div class="form-inline my-2 my-lg-0">
