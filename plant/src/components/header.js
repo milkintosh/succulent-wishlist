@@ -93,7 +93,7 @@ class Header extends React.Component {
                       </li>
                   </ul>
                   <div class="form-inline my-2 my-lg-0">
-                    <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange} onKeyPress = { () => this.onKeyPress}/>
+                    <input name = "name" value = {this.state.name} class="form-control mr-sm-2" type="text" placeholder="Search" onChange = {this.handleChange} onKeyPress = { (e) => this.onKeyPress(e)}/>
                     <button class="btn btn-secondary my-2 my-sm-0" onClick = { () => this.RenderResults() }>Search</button>
                   </div>
                   </div>

@@ -123,8 +123,8 @@ class Getuser extends React.Component {
             if(item['list'] === "owned") {
                 html = <div class="card border-primary mb-3" style={{"width": "50rem", "height":"15rem","text-align":"left"}}> 
                             <div class="card-header" style = {{"text-align":"right"}}>
-                                <button title="moveToLust" class = "btn btn-outline-primary" onClick={() => this.moveList('wishlist',item['name'])}><i class="fa fa-heart" aria-hidden="true"></i></button>
-                                <button title="moveToLost" class="btn btn-outline-primary" onClick={() => this.moveList('lost',item['name'])}><i class="fas fa-dizzy"></i></button>
+                                <button title="moveToLust" class = "btn btn-outline-primary" onClick={() => this.moveList('wishlist',item['name'])}><i class="fas fa-long-arrow-alt-right"></i><i class="fa fa-heart" aria-hidden="true"></i></button>
+                                <button title="moveToLost" class="btn btn-outline-primary" onClick={() => this.moveList('lost',item['name'])}><i class="fas fa-long-arrow-alt-right"></i><i class="fas fa-dizzy"></i></button>
                                 <button title = "remove" class = "btn btn-outline-danger" onClick = {() => this.removePlant(item['name'])}><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
                             {body}
@@ -135,7 +135,7 @@ class Getuser extends React.Component {
             else if(item['list'] === "wishlist") {
                 html = <div class="card border-primary mb-3" style={{"width": "50rem", "height":"15rem","text-align":"left"}}> 
                             <div class="card-header" style = {{"text-align":"right"}}>
-                                <button title="moveToOwned" class = "btn btn-outline-primary" onClick={() => this.moveList('owned',item['name'])}><i class="fa fa-leaf" aria-hidden="true"></i></button>
+                                <button title="moveToOwned" class = "btn btn-outline-primary" onClick={() => this.moveList('owned',item['name'])}><i class="fas fa-long-arrow-alt-right"></i><i class="fa fa-leaf" aria-hidden="true"></i></button>
                                 <button title = "remove" class = "btn btn-outline-danger" onClick = {() => this.removePlant(item['name'])}><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
                             {body}
@@ -146,8 +146,8 @@ class Getuser extends React.Component {
             else if(item['list'] === "lost") {
                 html = <div class="card border-primary mb-3" style={{"width": "50rem", "height":"15rem","text-align":"left"}}> 
                             <div class="card-header" style = {{"text-align":"right"}}>
-                                <button title="moveToLust" class = "btn btn-outline-primary" onClick={() => this.moveList('wishlist',item['name'])}><i class="fa fa-heart" aria-hidden="true"></i></button>
-                                <button title="moveToOwned" class="btn btn-outline-primary" onClick={() => this.moveList('owned',item['name'])}><i class="fas fa-leaf"></i></button>
+                                <button title="moveToLust" class = "btn btn-outline-primary" onClick={() => this.moveList('wishlist',item['name'])}><i class="fas fa-long-arrow-alt-right"></i><i class="fa fa-heart" aria-hidden="true"></i></button>
+                                <button title="moveToOwned" class="btn btn-outline-primary" onClick={() => this.moveList('owned',item['name'])}><i class="fas fa-long-arrow-alt-right"></i><i class="fas fa-leaf"></i></button>
                                 <button title = "remove" class = "btn btn-outline-danger" onClick = {() => this.removePlant(item['name'])}><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </div>
                             {body}
