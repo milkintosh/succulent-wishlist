@@ -15,7 +15,7 @@
     "morgan": "~1.9.1",
     "node-fetch": "^2.6.0",
     "pg": "^6.4.2",
-    "sequelize": "^6.3.4"
+    "sequelize": "^8.2.4"
   },
   "main": "app.js",
   "devDependencies": {
