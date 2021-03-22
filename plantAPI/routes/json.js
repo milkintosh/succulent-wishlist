@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var rawdata = require('./JSONdata/plant.json')
-const { Sequelize } = require('sequelize');
 var pg = require('pg');
 
 const config = {

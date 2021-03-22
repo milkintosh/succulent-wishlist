@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-//const fetch = require('node-fetch');
-const { Sequelize } = require('sequelize');
 var pg = require('pg');
 const e = require("express");
 
@@ -42,45 +40,39 @@ router.get('/', function(req, res, next) {
           /* If there was a page given, multiply page number to get offset data */
           if(req.query["page"]) {
             var json;
-            clientOrg.query("SELECT * FROM plants WHERE name LIKE '%' || $1 || '%' LIMIT 20 OFFSET $2", [req.query["category"], 20*(req.query["page"]-1)], (err, datares) => {
+            clientOrg.query("SELECT * FROM plants WHERE to_tsvector(lower(name)) @@ to_tsquery(lower($1)) ORDER BY name LIMIT 20 OFFSET $2", [req.query["category"], 20*(req.query["page"]-1)], (err, datares) => {
                 if(err) {
                 console.log("can't insert into table " + err);
                 return;
                 }  
                 json = datares.rows;
             })
-            clientOrg.query("SELECT COUNT(*) FROM plants WHERE name LIKE '%' || $1 || '%'",[req.query["category"]], (err, datares) => {
+            clientOrg.query("SELECT COUNT(*) FROM plants WHERE to_tsvector(lower(name)) @@ to_tsquery(lower($1))",[req.query["category"]], (err, datares) => {
                 if(err) {
                 console.log("can't insert into table " + err);
                 return;
                 } 
                 var json2 = datares.rows;
-                mergedjson = {
-                    ...json,
-                    ...json2
-                }
+                var mergedjson = json2.concat(json);
                 res.send(mergedjson);
             })
           }
           else {
               var json;
-            clientOrg.query("SELECT * FROM plants WHERE name LIKE '%' || $1 || '%' LIMIT 20;",[req.query["category"]], (err, datares) => {
+            clientOrg.query("SELECT * FROM plants WHERE to_tsvector(lower(name)) @@ to_tsquery(lower($1)) ORDER BY name LIMIT 20;",[req.query["category"]], (err, datares) => {
                 if(err) {
                 console.log("can't insert into table " + err);
                 return;
                 } 
                 json = datares.rows;
             })
-            clientOrg.query("SELECT COUNT(*) FROM plants WHERE name LIKE '%' || $1 || '%'",[req.query["category"]], (err, datares) => {
+            clientOrg.query("SELECT COUNT(*) FROM plants WHERE to_tsvector(lower(name)) @@ to_tsquery(lower($1))",[req.query["category"]], (err, datares) => {
                 if(err) {
                 console.log("can't insert into table " + err);
                 return;
                 } 
                 var json2 = datares.rows;
-                mergedjson = {
-                    ...json,
-                    ...json2
-                }
+                var mergedjson = json2.concat(json);
                 res.send(mergedjson);
             })
           }
