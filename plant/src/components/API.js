@@ -216,7 +216,7 @@ render () {
                     }
                     {pages}
                     {this.state.page < this.state.pages ?
-                    <button class="btn btn-info" onClick={ () => this.Clicked((this.state.page)+1)}><i class="fas fa-chevron-right"></i></button> :
+                    <button class="btn btn-outline-info" onClick={ () => this.Clicked((this.state.page)+1)}><i class="fas fa-chevron-right"></i></button> :
                     <button class="btn btn-link disabled"><i class="fas fa-chevron-right"></i></button>
                     }
                 </div>
